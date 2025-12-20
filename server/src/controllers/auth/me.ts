@@ -1,6 +1,12 @@
 import { Request, Response } from 'express';
 
+/**
+ * Obtiene la información del usuario autenticado actual.
+ * El usuario ya está disponible en `req.user` gracias al middleware de autenticación.
+ */
 export function me(req: Request, res: Response) {
+    // Retornamos directamente el usuario que fue adjuntado por el authMiddleware
+    // Esto evita tener que consultar la BD de nuevo si solo necesitamos info básica del token
     res.json({
         id: req.user?.id,
         email: req.user?.email,
