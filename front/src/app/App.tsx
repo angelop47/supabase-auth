@@ -4,6 +4,7 @@ import Login from '../pages/auth/Login';
 import Dashboard from '../pages/dashboard/Dashboard';
 import NewUser from '../components/auth/NewUser';
 import ProtectedRoute from '../routes/ProtectedRoute';
+import Navbar from '../components/ui/Navbar';
 
 // Un pequeño componente para envolver rutas de admin
 const AdminRoute = ({ children }: { children: React.ReactElement }) => {
@@ -19,33 +20,36 @@ const AdminRoute = ({ children }: { children: React.ReactElement }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Rutas Públicas */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+    <>
+      <Navbar />
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Rutas Públicas */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
 
-          {/* Grupo de Rutas Protegidas (Requieren Login) */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            {/* Grupo de Rutas Protegidas (Requieren Login) */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
 
-            {/* Ruta específica para Admin */}
-            <Route
-              path="/admin/new-user"
-              element={
-                <AdminRoute>
-                  <NewUser />
-                </AdminRoute>
-              }
-            />
-          </Route>
+              {/* Ruta específica para Admin */}
+              <Route
+                path="/admin/new-user"
+                element={
+                  <AdminRoute>
+                    <NewUser />
+                  </AdminRoute>
+                }
+              />
+            </Route>
 
-          {/* 404 - Opcional */}
-          <Route path="*" element={<h2>Página no encontrada</h2>} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            {/* 404 - Opcional */}
+            <Route path="*" element={<h2>Página no encontrada</h2>} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </>
   );
 }
 
