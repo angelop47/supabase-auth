@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from '../context/AuthContext';
 import Login from '../pages/auth/Login';
 import Dashboard from '../pages/dashboard/Dashboard';
 import NewUser from '../components/auth/NewUser';
+import Profile from '../pages/profile/Profile';
 import ProtectedRoute from '../routes/ProtectedRoute';
 import Navbar from '../components/ui/Navbar';
 
@@ -32,6 +33,7 @@ function App() {
             {/* Grupo de Rutas Protegidas (Requieren Login) */}
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile" element={<Profile />} />
 
               {/* Ruta específica para Admin */}
               <Route

@@ -82,7 +82,7 @@ export default function Example() {
                             >
                                 <MenuItem>
                                     <a
-                                        href="#"
+                                        href="/profile"
                                         className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
                                     >
                                         Your profile
