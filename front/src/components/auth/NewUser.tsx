@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import type { NewUserPayload } from '../../types/types';
+import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
 
 const NewUser: React.FC = () => {
-    const { token } = useAuth(); // Extraemos el token del administrador
+    const { token } = useAuth();
     const [formData, setFormData] = useState<NewUserPayload>({
         email: '',
         password: '',
@@ -33,7 +36,7 @@ const NewUser: React.FC = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Aquí pasamos el token dinámicamente
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(formData),
             });
@@ -45,7 +48,7 @@ const NewUser: React.FC = () => {
             }
 
             setStatus({ type: 'success', msg: '¡Usuario creado exitosamente!' });
-            setFormData({ email: '', password: '', full_name: '' }); // Limpiar formulario
+            setFormData({ email: '', password: '', full_name: '' });
 
         } catch (err) {
             const error = err as Error;
@@ -56,61 +59,66 @@ const NewUser: React.FC = () => {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: 'auto' }}>
-            <h3>Registrar Nuevo Usuario</h3>
-            <p >Esta acción requiere permisos de administrador.</p>
+        <div className="flex justify-center p-6 bg-gray-950 min-h-screen">
+            <Card className="w-full max-w-lg h-fit border-gray-800 bg-gray-900/50">
+                <CardHeader>
+                    <CardTitle className="text-xl text-white">Registrar Nuevo Usuario</CardTitle>
+                    <CardDescription className="text-gray-400">Esta acción requiere permisos de administrador.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-300">Nombre Completo</label>
+                            <Input
+                                name="full_name"
+                                type="text"
+                                value={formData.full_name}
+                                onChange={handleChange}
+                                required
+                                placeholder="Juan Pérez"
+                            />
+                        </div>
 
-            <form onSubmit={handleSubmit}>
-                <div >
-                    <label>Nombre Completo:</label>
-                    <input
-                        name="full_name"
-                        type="text"
-                        value={formData.full_name}
-                        onChange={handleChange}
-                        required
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-300">Email</label>
+                            <Input
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                placeholder="juan@example.com"
+                            />
+                        </div>
 
-                    />
-                </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-300">Contraseña</label>
+                            <Input
+                                name="password"
+                                type="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                placeholder="••••••••"
+                            />
+                        </div>
 
-                <div >
-                    <label>Email:</label>
-                    <input
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
+                        {status.msg && (
+                            <div className={`p-3 rounded-md text-sm ${status.type === 'error' ? 'bg-red-900/20 text-red-200 border border-red-900' : 'bg-green-900/20 text-green-200 border border-green-900'}`}>
+                                {status.msg}
+                            </div>
+                        )}
 
-                    />
-                </div>
-
-                <div >
-                    <label>Contraseña:</label>
-                    <input
-                        name="password"
-                        type="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-
-                    />
-                </div>
-
-                {status.msg && (
-                    <div >
-                        {status.msg}
-                    </div>
-                )}
-
-                <button
-                    type="submit"
-                    disabled={loading || !token}
-
-                >
-                    {loading ? 'Procesando...' : 'Crear Usuario'}
-                </button>
-            </form>
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={loading || !token}
+                        >
+                            {loading ? 'Procesando...' : 'Crear Usuario'}
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 };
