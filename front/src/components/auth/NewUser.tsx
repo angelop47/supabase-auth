@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import type { NewUserPayload } from '../../types/types';
+import { authService } from '../../services/auth.service';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
@@ -32,20 +33,7 @@ const NewUser: React.FC = () => {
         setStatus({ type: null, msg: '' });
 
         try {
-            const response = await fetch('http://localhost:4000/api/auth/new-user', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al crear el usuario');
-            }
+            await authService.createNewUser(formData, token);
 
             setStatus({ type: 'success', msg: '¡Usuario creado exitosamente!' });
             setFormData({ email: '', password: '', full_name: '' });

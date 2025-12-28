@@ -1,6 +1,6 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { LoginResponse, ApiError } from '../../types/types';
+import { authService } from '../../services/auth.service';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -20,19 +20,7 @@ const LoginForm: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch('http://localhost:4000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data: LoginResponse & ApiError = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error en la autenticación');
-            }
+            const data = await authService.login(email, password);
 
             // Update auth context
             login(data.user, data.access_token);
