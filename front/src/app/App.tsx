@@ -22,9 +22,9 @@ const AdminRoute = ({ children }: { children: React.ReactElement }) => {
 function App() {
   return (
     <>
-      <Navbar />
       <AuthProvider>
         <BrowserRouter>
+          <Navbar />
           <Routes>
             {/* Rutas Públicas */}
             <Route path='/login' element={<Login />} />
