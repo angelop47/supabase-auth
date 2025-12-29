@@ -33,16 +33,25 @@ export async function login(req: Request, res: Response) {
         return res.status(401).json({ error: error.message });
     }
 
-    // 4. Retornar información del usuario y tokens de sesión
+    // 4. Obtener información adicional del perfil usuario desde la tabla public.users
+    const { data: profile } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', data.user.id)
+        .single();
+
+    // 5. Retornar información del usuario y tokens de sesión
     // data.user contiene la info del usuario
     // data.session contiene los tokens (access_token, refresh_token)
     res.json({
         user: {
-            id: data.user?.id,
-            email: data.user?.email,
-            role: data.user?.app_metadata?.role ?? 'user',
+            id: data.user.id,
+            email: data.user.email,
+            role: data.user.app_metadata?.role ?? 'user',
+            full_name: profile?.full_name,
+            avatar_url: profile?.avatar_url,
         },
-        access_token: data.session?.access_token,
-        refresh_token: data.session?.refresh_token,
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
     });
 }
