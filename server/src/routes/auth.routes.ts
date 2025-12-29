@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { signup, login, me, forgotPassword, resetPassword } from '../controllers/auth';
+import { signup, login, me, forgotPassword, resetPassword, logout } from '../controllers/auth';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { authLimiter } from '../middlewares/rate-limit.middleware';
 import { requireAdmin } from '../middlewares/role.middleware';
@@ -26,6 +26,7 @@ router.post('/login', authLimiter, login);
 router.post('/new-user', authMiddleware, requireAdmin, signup);
 router.post('/forgot-password', authLimiter, forgotPassword);
 router.post('/reset-password', authMiddleware, resetPassword);
+router.post('/logout', logout);
 router.get('/me', authMiddleware, me);
 
 export default router;

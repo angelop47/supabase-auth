@@ -12,15 +12,16 @@ export async function authMiddleware(
   next: NextFunction,
 ) {
   // 1. Obtener el header Authorization
-  const authHeader = req.headers.authorization;
+  // 1. Obtener el token de las cookies o del header Authorization
+  let token = req.cookies?.access_token;
 
-  // 2. Verificar que el formato sea "Bearer <token>"
-  if (!authHeader?.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Token missing' });
+  if (!token && req.headers.authorization?.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
   }
 
-  // 3. Extraer el token
-  const token = authHeader.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).json({ error: 'Token missing' });
+  }
 
   // 4. Validar el token con Supabase Auth
   const { data, error } = await supabase.auth.getUser(token);
