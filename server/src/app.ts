@@ -1,13 +1,17 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import { env } from './config/env';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/users.routes';
 
 const app = express();
 
+app.use(helmet());
+
 app.use(cors(
     {
-        origin: 'http://localhost:5173',
+        origin: env.corsOrigin,
         credentials: true,
     }
 ));
