@@ -15,13 +15,30 @@ const Profile: React.FC = () => {
     <div className='flex min-h-[80vh] items-center justify-center p-4 bg-gray-950'>
       <Card className='w-full max-w-md border-gray-800 bg-gray-900/50 backdrop-blur-sm'>
         <CardHeader className='text-center'>
-          <div className='mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-500/20 text-3xl font-bold text-indigo-400 border border-indigo-500/30'>
-            {user?.email?.charAt(0).toUpperCase() || 'U'}
-          </div>
+          {user?.avatar_url ? (
+            <img
+              src={user.avatar_url}
+              alt={user.full_name || 'Avatar'}
+              className='mx-auto mb-4 h-20 w-20 rounded-full border border-indigo-500/30 object-cover'
+            />
+          ) : (
+            <div className='mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-500/20 text-3xl font-bold text-indigo-400 border border-indigo-500/30'>
+              {user?.full_name?.charAt(0).toUpperCase() ||
+                user?.email?.charAt(0).toUpperCase() ||
+                'U'}
+            </div>
+          )}
           <CardTitle className='text-2xl text-white'>Perfil de Usuario</CardTitle>
           <CardDescription className='text-gray-400'>Información de tu cuenta</CardDescription>
         </CardHeader>
         <CardContent className='space-y-4'>
+          {user?.full_name && (
+            <div className='rounded-lg bg-gray-950/50 p-4 border border-white/5'>
+              <p className='text-sm font-medium text-gray-500 mb-1'>Nombre Completo</p>
+              <p className='text-gray-200'>{user.full_name}</p>
+            </div>
+          )}
+
           <div className='rounded-lg bg-gray-950/50 p-4 border border-white/5'>
             <p className='text-sm font-medium text-gray-500 mb-1'>Email</p>
             <p className='text-gray-200'>{user?.email}</p>

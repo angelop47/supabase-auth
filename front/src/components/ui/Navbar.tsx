@@ -91,11 +91,22 @@ export default function Navbar() {
                   <MenuButton className='relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'>
                     <span className='absolute -inset-1.5' />
                     <span className='sr-only'>Open user menu</span>
-                    <img
-                      alt=''
-                      src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                      className='size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10'
-                    />
+                    {user?.avatar_url ? (
+                      <img
+                        alt={user?.full_name || 'User Avatar'}
+                        src={
+                          user?.avatar_url ||
+                          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                        }
+                        className='size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10 object-cover'
+                      />
+                    ) : (
+                      <div className='flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500/20 text-sm font-bold text-indigo-400 border border-indigo-500/30'>
+                        {user?.full_name?.charAt(0).toUpperCase() ||
+                          user?.email?.charAt(0).toUpperCase() ||
+                          'U'}
+                      </div>
+                    )}
                   </MenuButton>
 
                   <MenuItems
