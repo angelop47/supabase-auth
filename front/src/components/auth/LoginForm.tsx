@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
       const data = await authService.login(email, password);
 
       // Update auth context
-      login(data.user, data.access_token);
+      login(data.user);
 
       // Navigate to dashboard
       navigate('/dashboard');

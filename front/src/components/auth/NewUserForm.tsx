@@ -6,7 +6,8 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 
 const NewUser: React.FC = () => {
-  const { token } = useAuth();
+  // const { user } = useAuth(); 
+  // No necesitamos user explícitamente aquí si no hay lógica condicional de UI basada en roles en este componente
   const [formData, setFormData] = useState<NewUserPayload>({
     email: '',
     password: '',
@@ -35,7 +36,7 @@ const NewUser: React.FC = () => {
     setStatus({ type: null, msg: '' });
 
     try {
-      await authService.createNewUser(formData, token);
+      await authService.createNewUser(formData);
 
       setStatus({ type: 'success', msg: '¡Usuario creado exitosamente!' });
       setFormData({ email: '', password: '', full_name: '' });
@@ -87,17 +88,16 @@ const NewUser: React.FC = () => {
 
       {status.msg && (
         <div
-          className={`p-3 rounded-md text-sm ${
-            status.type === 'error'
-              ? 'bg-red-900/20 text-red-200 border border-red-900'
-              : 'bg-green-900/20 text-green-200 border border-green-900'
-          }`}
+          className={`p-3 rounded-md text-sm ${status.type === 'error'
+            ? 'bg-red-900/20 text-red-200 border border-red-900'
+            : 'bg-green-900/20 text-green-200 border border-green-900'
+            }`}
         >
           {status.msg}
         </div>
       )}
 
-      <Button type='submit' className='w-full' disabled={loading || !token}>
+      <Button type='submit' className='w-full' disabled={loading}>
         {loading ? 'Procesando...' : 'Crear Usuario'}
       </Button>
     </form>
