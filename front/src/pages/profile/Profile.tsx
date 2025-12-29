@@ -1,12 +1,12 @@
-import React from "react";
-import { useAuth } from "../../context/AuthContext";
+import React from 'react';
+import { useAuth } from '../../context/AuthContext';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../components/ui/Card";
+} from '../../components/ui/Card';
 
 const Profile: React.FC = () => {
   const { user, logout } = useAuth();
@@ -16,7 +16,7 @@ const Profile: React.FC = () => {
       <Card className="w-full max-w-md border-gray-800 bg-gray-900/50 backdrop-blur-sm">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-500/20 text-3xl font-bold text-indigo-400 border border-indigo-500/30">
-            {user?.email?.charAt(0).toUpperCase() || "U"}
+            {user?.email?.charAt(0).toUpperCase() || 'U'}
           </div>
           <CardTitle className="text-2xl text-white">
             Perfil de Usuario
