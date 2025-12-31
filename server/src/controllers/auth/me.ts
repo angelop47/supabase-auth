@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { supabase } from '../../config/supabase';
+import { createAuthenticatedClient } from '../../utils/supabase-client';
 
 /**
  * Obtiene la información del usuario autenticado actual.
@@ -14,7 +14,18 @@ export async function me(req: Request, res: Response) {
     // Esto evita tener que consultar la BD de nuevo si solo necesitamos info básica del token
 
     // Consultamos datos adicionales del perfil
-    const { data: profile } = await supabase
+    // Consultamos datos adicionales del perfil usando RLS (Cliente Autenticado)
+    // Usamos el token de la cookie
+    const token = req.cookies.access_token;
+
+    if (!token) {
+        // Si llegamos aqui sin token es raro por el middleware, pero por seguridad
+        return res.status(401).json({ error: 'No session token' });
+    }
+
+    const supabase = createAuthenticatedClient(token);
+
+    const { data: profile, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', req.user?.id)

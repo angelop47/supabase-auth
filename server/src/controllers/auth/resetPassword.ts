@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { supabase } from '../../config/supabase';
+import { createAuthenticatedClient } from '../../utils/supabase-client';
 
 /**
  * Restablece la contraseña del usuario autenticado.
@@ -27,22 +27,14 @@ export async function resetPassword(req: Request, res: Response) {
     }
 
     // 2. Actualizar el usuario en Supabase
-    // Al estar autenticado (via authMiddleware), actualizamos el usuario actual.
-    // Nota: supabase.auth.updateUser requiere un cliente autenticado o usar getUser(token) antes,
-    // pero como usamos el cliente admin 'supabase' importado de config/supabase, necesitamos el token del usuario
-    // o usar el método admin. SIN EMBARGO, authMiddleware ya validó el token.
-    // Para cambiar la contraseña DE ESE usuario específico usando el cliente admin, usamos admin.updateUserById
-    // O MEJOR: Usamos el token del usuario para actuar COMO el usuario.
+    const token = req.cookies.access_token;
+    if (!token) return res.status(401).json({ error: 'No session token' });
 
-    // En este proyecto `supabase` es un cliente creado con SERVICE_ROLE_KEY (admin) o ANON_KEY?
-    // Verifiquemos config/supabase.ts. Si es service_role, tenemos permisos de superadmin.
+    const supabase = createAuthenticatedClient(token);
 
-    // Asumiendo que req.user.id viene del middleware.
-
-    const { data, error } = await supabase.auth.admin.updateUserById(
-        req.user!.id,
-        { password: password }
-    );
+    const { error } = await supabase.auth.updateUser({
+        password: password
+    });
 
     // 3. Manejar errores
     if (error) {
