@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import { env } from './config/env';
+//import { env } from './config/env';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/users.routes';
 
@@ -14,7 +14,8 @@ app.use(helmet());
 // Configuración de CORS para permitir credenciales (cookies)
 app.use(cors(
     {
-        origin: env.corsOrigin,
+        //origin: env.corsOrigin,
+        origin: true,
         credentials: true,
     }
 ));
