@@ -43,7 +43,7 @@ export const authService = {
       }
 
       const data = await response.json();
-      return data.user; // Asumiendo que /me retorna { user: ... }
+      return data; // El backend retorna el usuario directamente
     } catch (error) {
       return null;
     }
