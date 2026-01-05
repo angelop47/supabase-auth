@@ -15,7 +15,7 @@ Este documento describe el plan de implementación para convertir el proyecto en
 ## Fase 2: Gestión de Sesión y Seguridad Activa (Prioridad Media-Alta)
 *Mejoras necesarias para el ciclo de vida de la sesión y la seguridad proactiva.*
 
-- [ ] **Cerrar Sesión (Logout)**
+- [x] **Cerrar Sesión (Logout)**
     - Endpoint: `POST /api/auth/logout`
     - Funcionalidad: Invalida la sesión actual (útil para clientes web/móviles para limpiar estado).
 - [ ] **Cambio de Contraseña (Change Password)**

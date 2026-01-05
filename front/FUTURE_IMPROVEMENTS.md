@@ -62,7 +62,7 @@ Las alertas actuales son mensajes de texto simples.
 
 ## 📋 Plan de Acción Prioritario
 
-1.  **Inmediato**: Extraer la URL de la API a variables de entorno.
-2.  **Corto Plazo**: Implementar **React Query** para limpiar la lógica de fetching y mejorar la UX.
+1.  **Inmediato**: Extraer la URL de la API a variables de entorno. ✅ **(Completado)**
+2.  **Corto Plazo**: Implementar **React Query** para limpiar la lógica de fetching y mejorar la UX. ✅ **(Completado)**
 3.  **Medio Plazo**: Migrar el almacenamiento de tokens de `localStorage` a un flujo más seguro (cookies o memoria con refresh silencioso).
 4.  **Largo Plazo**: Implementar suite de tests automatizados.
